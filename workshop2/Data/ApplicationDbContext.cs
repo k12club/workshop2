@@ -17,5 +17,7 @@ namespace workshop2.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+        public DbSet<Documemt> Documemt { get; set; }
+        public DbSet<DocumentFile> DocumentFile { get; set; }
     }
 }
