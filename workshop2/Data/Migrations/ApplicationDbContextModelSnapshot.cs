@@ -255,6 +255,9 @@ namespace workshop2.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -290,6 +293,8 @@ namespace workshop2.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -301,7 +306,31 @@ namespace workshop2.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("workshop2.Models.Documemt", b =>
+            modelBuilder.Entity("workshop2.Models.Board", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodeEmployee")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Create_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Board");
+                });
+
+            modelBuilder.Entity("workshop2.Models.Document", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,12 +340,27 @@ namespace workshop2.Data.Migrations
                     b.Property<DateTime>("Create_At")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("DocumentStatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("SecretId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Documemt");
+                    b.HasIndex("DocumentStatusId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("SecretId");
+
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("workshop2.Models.DocumentFile", b =>
@@ -326,7 +370,10 @@ namespace workshop2.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("DocumemtId")
+                    b.Property<long>("DocumentFilePositionSignatureId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("DocumentFileStatusId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("DocumentId")
@@ -337,9 +384,164 @@ namespace workshop2.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumemtId");
+                    b.HasIndex("DocumentFilePositionSignatureId");
+
+                    b.HasIndex("DocumentFileStatusId");
+
+                    b.HasIndex("DocumentId");
 
                     b.ToTable("DocumentFile");
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentFilePositionSignature", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("SignatureToId")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("X1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Y1")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentFilePositionSignature");
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentFileStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentFileStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "general"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "signature"
+                        });
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "ปกติ"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "ด่วน"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Name = "ด่วนมาก"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Name = "ด่วนที่สุด"
+                        });
+                });
+
+            modelBuilder.Entity("workshop2.Models.Employee", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BoardId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeEmployee")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Create_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("workshop2.Models.Secret", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Secret");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "ปกติ"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "ลับ"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Name = "ลับมาก"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Name = "ลับที่สุด"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -393,11 +595,64 @@ namespace workshop2.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("workshop2.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("workshop2.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("workshop2.Models.Document", b =>
+                {
+                    b.HasOne("workshop2.Models.DocumentStatus", "DocumentStatus")
+                        .WithMany()
+                        .HasForeignKey("DocumentStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workshop2.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workshop2.Models.Secret", "Secret")
+                        .WithMany()
+                        .HasForeignKey("SecretId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("workshop2.Models.DocumentFile", b =>
                 {
-                    b.HasOne("workshop2.Models.Documemt", "Documemt")
+                    b.HasOne("workshop2.Models.DocumentFilePositionSignature", "DocumentFilePositionSignature")
+                        .WithMany()
+                        .HasForeignKey("DocumentFilePositionSignatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workshop2.Models.DocumentFileStatus", "DocumentFileStatus")
+                        .WithMany()
+                        .HasForeignKey("DocumentFileStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workshop2.Models.Document", "Document")
                         .WithMany("DocumentFiles")
-                        .HasForeignKey("DocumemtId");
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("workshop2.Models.Employee", b =>
+                {
+                    b.HasOne("workshop2.Models.Board", "Board")
+                        .WithMany("Employees")
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

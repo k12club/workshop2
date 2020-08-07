@@ -10,8 +10,8 @@ using workshop2.Data;
 namespace workshop2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200806082910_DocumentAddCreate_AtSchema")]
-    partial class DocumentAddCreate_AtSchema
+    [Migration("20200807065346_M1")]
+    partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -303,7 +303,7 @@ namespace workshop2.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("workshop2.Models.Documemt", b =>
+            modelBuilder.Entity("workshop2.Models.Document", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,7 +318,65 @@ namespace workshop2.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Documemt");
+                    b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentFile", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("DocumentFileStatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("DocumentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("X1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Y1")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentFileStatusId");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("DocumentFile");
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentFileStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentFileStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "general"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "signature"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -368,6 +426,21 @@ namespace workshop2.Data.Migrations
                     b.HasOne("workshop2.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("workshop2.Models.DocumentFile", b =>
+                {
+                    b.HasOne("workshop2.Models.DocumentFileStatus", "DocumentFileStatus")
+                        .WithMany()
+                        .HasForeignKey("DocumentFileStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workshop2.Models.Document", "Document")
+                        .WithMany("DocumentFiles")
+                        .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

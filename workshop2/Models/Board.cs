@@ -6,14 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace workshop2.Models {
-    public class Documemt {
+    public class Board {
         [Key]
         [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
 
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CodeEmployee { get; set; }
+
         public DateTime Create_At { get; set; } = DateTime.Now;
 
-        public ICollection<DocumentFile> DocumentFiles { get; set; }
+         public ICollection<Employee> Employees { get; set; }
+
     }
 }
