@@ -11,7 +11,7 @@ namespace workshop2.Models {
         [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
 
         public long Id { get; set; }
-        public string FirstNamessss { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CodeEmployee { get; set; }
 
