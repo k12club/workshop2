@@ -12,5 +12,6 @@ namespace workshop2.ViewModels {
                 public string Name { get; set; }
                 public List<IFormFile> file { get; set; }
 
+                        //hhhh
         }
 }
