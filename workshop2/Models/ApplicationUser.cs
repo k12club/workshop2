@@ -8,6 +8,6 @@ namespace workshop2.Models {
     public class ApplicationUser : IdentityUser {
         public long EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
-///ldfmgb
+
     }
 }
