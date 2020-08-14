@@ -15,6 +15,8 @@ namespace workshop2.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     public class DocumemtsController : ControllerBase {
+
+        //เชื่อมต่อ database 
         private readonly ApplicationDbContext _context;
         public static IWebHostEnvironment _environment;
         private static Random random = new Random ();
@@ -28,6 +30,28 @@ namespace workshop2.Controllers {
         public DocumemtsController (ApplicationDbContext context, IWebHostEnvironment environment) {
             _context = context;
             _environment = environment;
+        }
+
+        [HttpGet]
+        public IActionResult GetAll () {
+            var data = _context.Document
+                .Include (m => m.DocumentStatus)
+                .Include (m => m.Secret)
+                .Include (m => m.DocumentFiles)
+                .ThenInclude (m => m.DocumentFileStatus)
+                .ToList ();
+            return Ok (data);
+        }
+
+        [HttpGet ("{id}")]
+        public IActionResult GetItem (long id) {
+            var data = _context.Document.Where (w => w.Id == id)
+                .Include (m => m.DocumentStatus)
+                .Include (m => m.Secret)
+                .Include (m => m.DocumentFiles)
+                .ThenInclude (m => m.DocumentFileStatus)
+                .FirstOrDefault ();
+            return Ok (data);
         }
 
         [HttpPost ("uploadfile")]
@@ -92,7 +116,10 @@ namespace workshop2.Controllers {
         public async Task<IActionResult> PostTest ([FromForm] DocumentViewModels model) {
             var Data = new Document {
                 Name = model.Name,
-                Create_At = DateTime.Now
+                Create_At = DateTime.Now,
+                EmployeeId = model.EmployeeId,
+                DocumentStatusId = model.DocumentStatusId,
+                SecretId = model.SecretId
             };
             //แอดเข้าฐานข้อมูล
             _context.Document.Add (Data);
@@ -133,15 +160,31 @@ namespace workshop2.Controllers {
                 _context.SaveChanges ();
                 //end แอดเข้าฐานข้อมูล
             }
-            return Ok (Data); 
+            return Ok (Data);
             //     }
 
         }
 
-        [HttpPut]
-        public IActionResult PutTest ([FromForm] DocumentViewModels model) {
+        [HttpPut ("{id}")]
+        public IActionResult PutTest ([FromBody] Document model, long id) {
+            var documentData = _context.Document.Find (id);
+            documentData.Name = model.Name;
+            documentData.SecretId = 2;
 
-            return Ok ("HttpPut");
+            _context.Entry (documentData).State = EntityState.Modified;
+            _context.SaveChanges ();
+
+            return Ok (documentData);
+
+        }
+
+        [HttpDelete ("{id}")]
+        public IActionResult DeleteDocument (long id) {
+            var documentData = _context.Document.Find (id);
+            _context.Document.Remove (documentData);
+            _context.SaveChanges ();
+
+            return Ok (documentData);
 
         }
 

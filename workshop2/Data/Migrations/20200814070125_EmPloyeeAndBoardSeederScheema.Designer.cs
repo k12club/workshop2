@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using workshop2.Data;
 
 namespace workshop2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200814070125_EmPloyeeAndBoardSeederScheema")]
+    partial class EmPloyeeAndBoardSeederScheema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,7 +336,7 @@ namespace workshop2.Data.Migrations
                         {
                             Id = 1L,
                             CodeEmployee = "12601400",
-                            Create_At = new DateTime(2020, 8, 14, 14, 15, 53, 154, DateTimeKind.Local).AddTicks(7952),
+                            Create_At = new DateTime(2020, 8, 14, 14, 1, 24, 100, DateTimeKind.Local).AddTicks(7074),
                             FirstName = ""
                         });
                 });
@@ -379,7 +381,7 @@ namespace workshop2.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("DocumentFilePositionSignatureId")
+                    b.Property<long>("DocumentFilePositionSignatureId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("DocumentFileStatusId")
@@ -521,7 +523,7 @@ namespace workshop2.Data.Migrations
                             Id = 1L,
                             BoardId = 1L,
                             CodeEmployee = "555555555",
-                            Create_At = new DateTime(2020, 8, 14, 14, 15, 53, 157, DateTimeKind.Local).AddTicks(3135),
+                            Create_At = new DateTime(2020, 8, 14, 14, 1, 24, 104, DateTimeKind.Local).AddTicks(7639),
                             FirstName = "Jeerawut"
                         });
                 });
@@ -648,7 +650,9 @@ namespace workshop2.Data.Migrations
                 {
                     b.HasOne("workshop2.Models.DocumentFilePositionSignature", "DocumentFilePositionSignature")
                         .WithMany()
-                        .HasForeignKey("DocumentFilePositionSignatureId");
+                        .HasForeignKey("DocumentFilePositionSignatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("workshop2.Models.DocumentFileStatus", "DocumentFileStatus")
                         .WithMany()

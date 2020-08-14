@@ -28,6 +28,8 @@ namespace workshop2.Data {
             builder.ApplyConfiguration (new DocumentFileStatusSeeder ());
             builder.ApplyConfiguration (new DocumentStatusSeeder ());
             builder.ApplyConfiguration (new SecretSeeder ());
+            builder.ApplyConfiguration (new BoardSeeder ());
+            builder.ApplyConfiguration (new EmployeeSeeder ());
 
         }
     }
