@@ -16,7 +16,6 @@ namespace workshop2.Models {
         public string CodeEmployee { get; set; }
         public long BoardId { get; set; }
         public virtual Board Board { get; set; }
-
         public DateTime Create_At { get; set; } = DateTime.Now;
 
     }

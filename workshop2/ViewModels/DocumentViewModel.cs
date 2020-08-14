@@ -11,7 +11,11 @@ namespace workshop2.ViewModels {
 
                 public string Name { get; set; }
                 public List<IFormFile> file { get; set; }
+                public long EmployeeId { get; set; }
+                public long DocumentStatusId { get; set; }
+                public long SecretId { get; set; }
 
-                        //hhhh
+                
+                ///ddddd
         }
 }

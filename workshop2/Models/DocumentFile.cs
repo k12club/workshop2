@@ -13,7 +13,7 @@ namespace workshop2.Models {
                 public long Id { get; set; }
                 public string FileName { get; set; }
 
-                public long DocumentFilePositionSignatureId { get; set; }
+                public long? DocumentFilePositionSignatureId { get; set; }
                 public virtual DocumentFilePositionSignature DocumentFilePositionSignature { get; set; }
 
                 public long DocumentFileStatusId { get; set; }
