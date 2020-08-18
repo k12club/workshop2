@@ -603,10 +603,6 @@ namespace workshop2.Data.Seeders {
                                 new Board { Id = 593, FirstName = "", CodeEmployee = "12601992" },
                                 new Board { Id = 594, FirstName = "", CodeEmployee = "12601993" },
                                 new Board { Id = 595, FirstName = "", CodeEmployee = "26201296" }
-
-
-
-
                         );
                 }
         }

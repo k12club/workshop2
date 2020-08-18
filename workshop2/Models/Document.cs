@@ -16,9 +16,13 @@ namespace workshop2.Models {
         public virtual DocumentStatus DocumentStatus { get; set; }
         public long EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
+        public long ApproveStatusID { get; set; }
+        public virtual ApproveStatus ApproveStatus { get; set; }
         public long SecretId { get; set; } = 1;
         public virtual Secret Secret { get; set; }
         public DateTime Create_At { get; set; } = DateTime.Now;
+
+        public DateTime DateSignature { get; set; }
 
         public ICollection<DocumentFile> DocumentFiles { get; set; }
     }
